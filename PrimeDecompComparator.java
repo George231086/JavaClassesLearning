@@ -49,7 +49,7 @@ public class PrimeDecompComparator implements Comparator<Integer> {
      *
      * Computes the prime decomposition of a given integer. It returns a list of
      * the elements in the decomposition, including repeats. E.g applying the
-     * method to 11 and 3 will return [11] and [3,3] respectively.
+     * method to 11 and 9 will return [11] and [3,3] respectively.
      *
      *
      */
