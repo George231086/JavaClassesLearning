@@ -15,66 +15,64 @@ import java.util.ArrayList;
 
 public class RegexMessing {
 
-    //Get connection and return a buffered reader.
-    public BufferedReader connectAndGetReader(String url) throws IOException {
+    //Get connection and return the page as a string.
+    public String connectAndGetPage(String url) throws IOException {
         URL page = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) page.openConnection();
         conn.connect();
         InputStreamReader in = new InputStreamReader((InputStream) conn.getContent());
-        return new BufferedReader(in);
+        BufferedReader buff = new BufferedReader(in);
+        String line;
+        StringBuilder sb = new StringBuilder("");
+        while ((line = buff.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        return sb.toString();
     }
 
-    // Method to find tags checking line by line.
-    public Collection<String> getTagsMethod1(BufferedReader buff) throws IOException {
-        // Pattern to match tags. 
-        Pattern p = Pattern.compile("<[^>]*>");
-
-        // Hashset to remove duplicate tags.
+    // Get all tags on page, excluding closing tags and comments.
+    public ArrayList<String> getTags(String url) {
+        // Use hashset to remove duplicates
         Collection<String> tags = new HashSet<>();
-        String line;
-        // Read in and search line by line.
-        while ((line = buff.readLine()) != null) {
-            Matcher m = p.matcher(line);
+        try {
+            String page = connectAndGetPage(url);
+            Pattern p = Pattern.compile("<[^>]*>");
+            Matcher m = p.matcher(page);
             while (m.find()) {
-                // Get matches, remove closed tags and comments.
+                // Get match and add to hashset if not a comment or closing tag.
                 String match = m.group(0);
                 String characterAfterStart = String.valueOf(match.charAt(1));
                 if (!characterAfterStart.equals("/") && !characterAfterStart.equals("!")) {
                     tags.add(match.trim());
                 }
             }
+        } catch (IOException e) {
+            System.out.println("IOException");
         }
-
-        return tags;
+        return sortTags(tags);
 
     }
-
-    // The same as previous method but the whole page is searched as a single string.
-    // this catches multiline matches.
-    public Collection<String> getTagsMethod2(BufferedReader buff) throws IOException {
-        Pattern p = Pattern.compile("<[^>]*>");
-        Collection<String> tags = new HashSet<>();
-        String line;
-        StringBuilder sb = new StringBuilder("");
-        while ((line = buff.readLine()) != null) {
-            sb.append(line).append("\n");
-        }
-        String allLines = sb.toString();
-        Matcher m = p.matcher(allLines);
-        while (m.find()) {
-            String match = m.group(0);
-            String characterAfterStart = String.valueOf(match.charAt(1));
-            if (!characterAfterStart.equals("/") && !characterAfterStart.equals("!")) {
-                tags.add(match.trim());
+    
+    public ArrayList<String> getScripts(String url){
+        Collection<String> scripts = new HashSet<>();
+        try {
+            String page = connectAndGetPage(url);
+            // [\\s\\S]*? the question mark stops the [\\s\\S]* from being greedy.
+            Pattern p = Pattern.compile("<script[^>]*>[\\s\\S]*?</script>");
+            Matcher m = p.matcher(page);
+            while (m.find()){
+                scripts.add(m.group(0));
             }
+            
+        } catch (IOException e) {
+            System.out.println("IOException!!!");
         }
-
-        return tags;
-
+        
+        return sortTags(scripts);
     }
 
     // Method to put matches in alphabetical and length order.
-    public ArrayList sortTags(Collection<String> tags) {
+    public ArrayList<String> sortTags(Collection<String> tags) {
         // Transform set to list so can sort.
         ArrayList<String> list = new ArrayList<>(tags);
 
@@ -100,39 +98,22 @@ public class RegexMessing {
         return list;
     }
 
-    // Get the tags using one of the above methods. Used so that it's easier to
-    // add different methods at a later date.
-    public ArrayList getTags(String url, int methodNumber) {
+    
 
-        Collection<String> tags = new HashSet();
-        try ( // Get connection.
-                BufferedReader buff = connectAndGetReader(url)) {
-
-            switch (methodNumber) {
-                case 1:
-                    tags = getTagsMethod1(buff);
-                    break;
-                case 2:
-                    tags = getTagsMethod2(buff);
-                    break;
-            }
-
-        } catch (IOException e) {
-            System.out.println("IOException!!!");
-        }
-        return sortTags(tags);
-    }
-
-    public static void main(String[] args) throws Exception {
-        ArrayList<String> tags1 = new RegexMessing().getTags("https://uk.yahoo.com/?p=us", 1);
-        ArrayList<String> tags2 = new RegexMessing().getTags("https://uk.yahoo.com/?p=us", 2);
-
-        System.out.println("Method1: " + tags1.size() + " Method2: " + tags2.size());
-
-        // print tags which are only on one line. Not perfect.
-        for (String tag : tags1) {
+    public static void main(String[] args){
+        ArrayList<String> tags = new RegexMessing().getTags("https://uk.yahoo.com/?p=us");
+        ArrayList<String> scripts = new RegexMessing().getScripts("https://uk.yahoo.com/?p=us");
+        
+        // print tags
+        for (String tag : tags) {
             System.out.println(tag);
         }
-
+        
+        // Alternative functional foreach to print scripts
+        scripts.stream().forEach((script) -> {
+            System.out.println(script);
+        });
+        
+        
     }
 }
