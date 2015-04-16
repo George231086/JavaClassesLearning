@@ -14,15 +14,7 @@ import java.util.Comparator;
  */
 public class PrimeDecompComparator implements Comparator<Integer> {
 
-    /**
-     *
-     * @param x
-     * @param y
-     *
-     * Compare two integers by the number of primes in their prime
-     * decomposition. E.g 11<9 as 11 is prime and 9=3*3.
-     *
-     */
+    
     @Override
     public int compare(Integer x, Integer y) {
         //Here we compute the whole prime decomposition
@@ -42,19 +34,9 @@ public class PrimeDecompComparator implements Comparator<Integer> {
         }
     }
 
-    /**
-     *
-     * @param x number to find prime decomposition of.
-     * @return
-     *
-     * Computes the prime decomposition of a given integer. It returns a list of
-     * the elements in the decomposition, including repeats. E.g applying the
-     * method to 11 and 9 will return [11] and [3,3] respectively.
-     *
-     *
-     */
+    
     public List<Integer> computePrimeDecomp(int x) {
-        //int originalInt = x;
+        
         List<Integer> primeFactors = new ArrayList<>();
         for (int i = 2; i <= x; i++) {
             if (x % i == 0) {
@@ -63,11 +45,7 @@ public class PrimeDecompComparator implements Comparator<Integer> {
                 i = 1;
             }
         }
-        /*int check = 1;
-         for (int primeFactor : primeFactors){
-         check*=primeFactor;
-         }
-         System.out.println(originalInt-check);*/
+        
         return primeFactors;
     }
 
