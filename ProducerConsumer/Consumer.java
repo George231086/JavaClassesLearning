@@ -1,7 +1,6 @@
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-
 /**
  *
  * @author George
