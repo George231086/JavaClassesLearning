@@ -16,11 +16,12 @@ public class Consumer implements Runnable {
         blockPanel = new BlockPanel(blockNo);
         frame.add(blockPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension screenSize =java.awt.Toolkit.getDefaultToolkit().getScreenSize();;
+        Dimension screenSize =java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         frame.setBounds(screenSize.width/2,screenSize.height/4, 300, 300);
         frame.setVisible(true);
     }
-
+    
+    @Override
     public void run() {
         while (true) {
             takeAndUseBlock();
