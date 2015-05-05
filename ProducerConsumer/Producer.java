@@ -1,12 +1,12 @@
-/**
- *
- * @author George
- */
-
 import java.awt.Dimension;
 import java.util.Random;
 import javax.swing.JFrame;
 import java.awt.Toolkit;
+
+/**
+ *
+ * @author George
+ */
 
 public class Producer implements Runnable {
     private final Drop drop;
