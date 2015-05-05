@@ -7,7 +7,6 @@ import java.awt.Toolkit;
  *
  * @author George
  */
-
 public class Producer implements Runnable {
     private final Drop drop;
     private final BlockPanel blockPanel;
