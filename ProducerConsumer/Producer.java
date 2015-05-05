@@ -48,7 +48,7 @@ public class Producer implements Runnable {
         }
         blockPanel.repaint();
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
         }
         drop.put(xpos, ypos);
