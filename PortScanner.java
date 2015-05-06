@@ -1,10 +1,11 @@
 import java.net.Socket;
 import java.io.IOException;
+
 /**
  *
  * @author George
  */
-
+ 
 // Basic Portscanner object. Made it runnable so that the range of values to be
 // scanned can be split between multiple threads and scanned in parallel.
 public class PortScanner implements Runnable {
