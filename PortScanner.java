@@ -1,9 +1,9 @@
+import java.net.Socket;
+import java.io.IOException;
 /**
  *
  * @author George
  */
-import java.net.Socket;
-import java.io.IOException;
 
 // Basic Portscanner object. Made it runnable so that the range of values to be
 // scanned can be split between multiple threads and scanned in parallel.
@@ -19,18 +19,12 @@ public class PortScanner implements Runnable {
         this.finish = finish;
     }
 
-    // Method to detect if port is open. Based on the assumption that if
-    // we can connect to it, it is open, if not, it is not. In general
-    // there may be other reasons why we cannot connect.
-    public boolean portOpen(int portNumber) {
-        try (Socket socket = new Socket(hostname, portNumber)) {
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+    @Override
+    public void run() {
+        scan();
     }
-    
-    // Scan between start and finish values given as instance 
+
+    // Scan between start and finish values given as instance
     // variables in the constructor of the portScanner object.
     public void scan() {
         int portNumber = start;
@@ -43,15 +37,24 @@ public class PortScanner implements Runnable {
             portNumber++;
         }
     }
-    
-    // Get portScanner to start scanning.
-    @Override
-    public void run() {
-        scan();
+    // Method to detect if port is open. Based on the assumption that if
+    // we can connect to it, it is open, if not, it is not. In general
+    // there may be other reasons why we cannot connect.
+    public boolean portOpen(int portNumber) {
+        try (Socket socket = new Socket(hostname, portNumber)) {
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
+
+
+
+
+
     // Static method to split the work of scanning across multiple threads
-    // in parallel. 
+    // in parallel.
     public static void threadedPortScan(String hostname, int scanRangePerThread, int start, int finish) {
         // Divide the work, create and start the threads. The number of ports each thread will scan
         // is given as a parameter.
@@ -66,14 +69,14 @@ public class PortScanner implements Runnable {
                 finishPosForThread = startPosForThread + scanRangePerThread + range % numberOfThreads;
             }
             new Thread(new PortScanner(hostname, startPosForThread,
-                    finishPosForThread)).start();
+                                       finishPosForThread)).start();
         }
     }
 
     public static void main(String args[]) {
         // Check which of the ports in the range 1 to 2000 are open on the localhost.
-        // Share the work between multiple threads, each thread except the last checking 3 ports. 
-        PortScanner.threadedPortScan("localhost", 3, 1, 2000);
+        // Share the work between multiple threads, each thread except the last checking 3 ports.
+        PortScanner.threadedPortScan("localhost", 3, 1, 20000);
 
     }
 
