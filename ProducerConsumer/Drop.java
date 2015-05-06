@@ -48,7 +48,7 @@ public class Drop {
         return empty;
     }
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String args[]){
         Drop d = new Drop();
         Producer p = new Producer(d,10);
         Consumer c = new Consumer(d,10);
