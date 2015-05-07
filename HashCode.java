@@ -50,9 +50,11 @@ public class HashCode {
         // We have overridden the equals method to compare flavours.
         System.out.println(chocolate1.equals(chocolate2)); //true
 
-        // We have overridden the hashcode method so chocolate2 acts as
-        // same key as chocolate1. If we hadn't, map.get(chocolate2) would return null
-        // even though equals returns true.
+        // We have overridden the hashcode method so chocolate2 has the same hashcode
+        // as chocolate1. As chococlate2 has the same hashcode and the equals method returns
+        // true, chocolate2 is treated as the same key as chocolate1. Note if we had overridden hashcode but
+        // not equals, map.get(chocolate2) would return null and map.put(chocolate2) would cause a collision
+        // and increase the size of map to 2.
         System.out.println(map.get(chocolate2)); // Yum a chocolate iceCream!
     }
 }
