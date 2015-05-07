@@ -5,6 +5,7 @@ import java.util.Objects;
  *
  * @author George
  */
+ //Basic example overriding equals and hashcode.
 public class HashCode {
 
     public static class IceCream {
