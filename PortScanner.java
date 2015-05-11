@@ -1,11 +1,12 @@
-import java.net.Socket;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  *
  * @author George
  */
- 
 // Basic Portscanner object. Made it runnable so that the range of values to be
 // scanned can be split between multiple threads and scanned in parallel.
 public class PortScanner implements Runnable {
@@ -38,6 +39,7 @@ public class PortScanner implements Runnable {
             portNumber++;
         }
     }
+
     // Method to detect if port is open. Based on the assumption that if
     // we can connect to it, it is open, if not, it is not. In general
     // there may be other reasons why we cannot connect.
@@ -48,11 +50,6 @@ public class PortScanner implements Runnable {
             return false;
         }
     }
-
-
-
-
-
 
     // Static method to split the work of scanning across multiple threads
     // in parallel.
@@ -70,14 +67,35 @@ public class PortScanner implements Runnable {
                 finishPosForThread = startPosForThread + scanRangePerThread + range % numberOfThreads;
             }
             new Thread(new PortScanner(hostname, startPosForThread,
-                                       finishPosForThread)).start();
+                    finishPosForThread)).start();
         }
     }
 
+    /**
+     * *
+     *
+     * @param args Program to look for open ports on a given host. Usage:
+     * [hostname\IP] [Starting port] [Finishing port] [Port range per thread] 
+     * eg: localhost 1 2000 10 
+     * The work is split between multiple threads, so that
+     * the port range is scanned in parallel.
+     */
     public static void main(String args[]) {
-        // Check which of the ports in the range 1 to 2000 are open on the localhost.
-        // Share the work between multiple threads, each thread except the last checking 3 ports.
-        PortScanner.threadedPortScan("localhost", 3, 1, 20000);
+
+        if (args.length == 4) {
+            try {
+                InetAddress adress = InetAddress.getByName(args[0]);
+                PortScanner.threadedPortScan(args[0], Integer.parseInt(args[3]),
+                        Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+            } catch (NumberFormatException e1) {
+                System.out.println("Arguments 2,3 and 4 must be integers!");
+            } catch (UnknownHostException e2) {
+                System.out.println("Hostname not known!");
+            }
+
+        } else {
+            System.out.println("Usage: [hostname\\IP] [Starting port] [Finishing port] [Port range per thread]");
+        }
 
     }
 
