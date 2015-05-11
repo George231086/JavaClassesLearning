@@ -84,7 +84,7 @@ public class PortScanner implements Runnable {
 
         if (args.length == 4) {
             try {
-                InetAddress adress = InetAddress.getByName(args[0]);
+                InetAddress address = InetAddress.getByName(args[0]);
                 PortScanner.threadedPortScan(args[0], Integer.parseInt(args[3]),
                         Integer.parseInt(args[1]), Integer.parseInt(args[2]));
             } catch (NumberFormatException e1) {
