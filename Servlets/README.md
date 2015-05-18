@@ -20,18 +20,8 @@ password: georgepswd
 table: users
 Of course the servlet can be altered.
 
-To deploy the servlet, add the class file to $CATALINA_HOME/webapps/ROOT/WEB-INF/classes and add 
+To deploy the servlet, add the class file to $CATALINA_HOME/webapps/ROOT/WEB-INF/classes and add alter the web.xml file to the one given in this repo.
 
-<servlet>
-   <servlet-name>userForm</servlet-name>
-   <servlet-class>userForm</servlet-class>
-</servlet>
-
-<servlet-mapping>
-   <servlet-name>userForm</servlet-name>
-   <url-pattern>/userForm</url-pattern>
-</servlet-mapping>
-
-to the web.xml file. To use it add the file form.htm to $CATALINA_HOME/webapps/ROOT, start tomcat and navigate to http://localhost:8080/form.htm in a webbrowser. Put an email and password and click submit. If all goes well the resulting page will welcome you if the email and password are in the table, say no access if it is not, and give an error message if there has been a sql or classnotfound exception. 
+To use it add the file form.htm to $CATALINA_HOME/webapps/ROOT, start tomcat and navigate to http://localhost:8080/form.htm in a webbrowser. Put an email and password and click submit. If all goes well the resulting page will welcome you if the email and password are in the table, say no access if it is not, and give an error message if there has been a sql or classnotfound exception. 
 
 
