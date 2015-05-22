@@ -1,9 +1,0 @@
-<servlet>
-   <servlet-name>userForm</servlet-name>
-   <servlet-class>userForm</servlet-class>
-</servlet>
-
-<servlet-mapping>
-   <servlet-name>userForm</servlet-name>
-   <url-pattern>/userForm</url-pattern>
-</servlet-mapping>
