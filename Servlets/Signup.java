@@ -19,7 +19,6 @@ public class Signup extends HttpServlet {
 	 */
 	public Signup() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
