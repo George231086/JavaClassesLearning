@@ -31,22 +31,26 @@ public class Signup extends HttpServlet {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		String repeatPassword = request.getParameter("repeatPassword");
 		String result = null;
-		try {
-			DbConnection db = new DbConnection();
-			if (db.emailExists(email))
-				result = "Account already exists";
-			else {
-				if (db.updateDatabase(name, email, password))
-					result = "Account created";
-				else
-					result = "failed";
+		if (password == repeatPassword) {
+			try {
+				DbConnection db = new DbConnection();
+				if (db.emailExists(email))
+					result = "Account already exists";
+				else {
+					if (db.updateDatabase(name, email, password))
+						result = "Account created";
+					else
+						result = "failed";
+				}
+			} catch (ClassNotFoundException e1) {
+				result = "ClassNotFoundException";
+			} catch (SQLException e2) {
+				result = "SQLException";
 			}
-		} catch (ClassNotFoundException e1) {
-			result = "ClassNotFoundException";
-		} catch (SQLException e2) {
-			result = "SQLException";
-		}
+		} else
+			result = "Password confirmation failed.";
 		response.getWriter().write(result);
 	}
 
@@ -56,7 +60,7 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		doPost(request, response);
 
 	}
 
