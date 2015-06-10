@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.lang.ClassNotFoundException;
 
 /**
- * Servlet implementation class Login 
+ * Servlet implementation class Login
  */
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -17,6 +17,7 @@ public class Login extends HttpServlet {
 	 */
 	public Login() {
 		super();
+
 	}
 
 	/**
@@ -27,20 +28,23 @@ public class Login extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		String title = null;
+		String destination = null;
 		try {
 			DbConnection db = new DbConnection();
-			if (db.userExists(email, password))
-				title = "userExists";
-			else
-				title = "userDoesNotExist";
+			if (db.userExists(email, password)) {
+				destination = "/userExists.html";
+			} else
+				destination = "/userDoesNotExist.html";
 		} catch (ClassNotFoundException e1) {
-			title = "ClassNotFoundException";
+			request.setAttribute("error", "ClassNotFoundException");
+			destination = "/error.jsp";
 		} catch (SQLException e2) {
-			title = "SQLException";
+			request.setAttribute("error", "SQLException");
+			destination = "/error.jsp";
 		}
-
-		response.getWriter().write(title);
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher(destination);
+		dispatcher.forward(request, response);
 	}
 
 	/**
