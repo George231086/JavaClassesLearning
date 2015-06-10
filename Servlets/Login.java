@@ -17,8 +17,7 @@ public class Login extends HttpServlet {
 	 */
 	public Login() {
 		super();
-
-	}
+        }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
