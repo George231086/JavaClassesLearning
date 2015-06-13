@@ -66,8 +66,7 @@ public class MysqlExample {
 				source.updateRow();
 			}
 
-			// Line to cause SQL error to test rollback, uncomment to try
-			// out.
+			// Line to cause SQL error to test rollback, uncomment to try out.
 			// statement.execute("UPDATE accounts SET balance = a WHERE name = Jack");
 
 			dest = statement
