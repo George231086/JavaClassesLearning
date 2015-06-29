@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * 
  * @author george
  * 			
- * 		   Program that asks for a quadratic equation in the form ax^2+bx+c, 
+ * 	   Program that asks for a quadratic equation in the form ax^2+bx+c, 
  *         then returns the roots.
  * 
  */
