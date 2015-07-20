@@ -4,7 +4,7 @@ Messing around with JSoup and JDBC. Java training.
 
 The purpose of this program was to get more experience with Java database connectivity, a little webscraping and to generate a big table that I can use to do some analysis on with pandas in Python. 
 
-The program is a small gui application that allows a url to be scanned for particular tags and the results displayed in a text area. The results can also be uploaded to a database with the update database button. The text as well as the date is was scraped and the href if available will be uploaded. There is an auto update radio button which when selected will update the database every minute. Another button "Show latest db entries" displays the most recent 100 entries in another text area. Finally there is a button to export the database to a text file for further analysis.
+The program is a small gui application that allows a url to be scanned for particular tags and the results displayed in a text area. The results can also be uploaded to a database with the update database button. The text as well as the date is scraped and the href if available will be uploaded. There is an auto update radio button which when selected will update the database every minute. Another button "Show latest db entries" displays the most recent 100 entries in another text area. Finally there is a button to export the database to a text file for further analysis.
 
 The database I used was Apache Derby in netbeans. Can supply the db location, username, password, db class Driver and tablename to the constructor. The default is given by, ScannerFrame("jdbc:derby://localhost:1527/sample","app","app","org.apache.derby.jdbc.ClientDriver","APP.Test"). The table needs to already exist. 
 
