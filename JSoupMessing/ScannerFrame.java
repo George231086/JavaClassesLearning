@@ -1,4 +1,4 @@
-package jsoupmessing;
+package JSoupMessing;
 
 import javax.swing.*;
 import java.awt.event.*;
